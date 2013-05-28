@@ -1,1 +1,119 @@
-<p>This is the template for Home.</p>
+<style>
+    .form-column {
+        -moz-box-shadow: 0px 0px 5px 4px rgba(204, 204, 204, 0.37);
+        -webkit-box-shadow: 0px 0px 5px 4px rgba(204, 204, 204, 0.37);
+        box-shadow: 0px 0px 5px 4px rgba(204, 204, 204, 0.37);
+    }
+    .field-column {
+        -moz-box-shadow: 0px 0px 5px 4px rgba(204, 204, 204, 0.37);
+        -webkit-box-shadow: 0px 0px 5px 4px rgba(204, 204, 204, 0.37);
+        box-shadow: 0px 0px 5px 4px rgba(204, 204, 204, 0.37);
+    }
+    .form-control {
+        padding: 5px;
+        background-color: #1a1a1a;
+        list-style: none;
+        margin: 0;
+    }
+    .form-display {
+        padding: 15px 50px;
+        max-width: 660px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .form-item {
+        border: 1px solid rgba(0,0,0,0.1);
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    .form-item-control-item {
+        margin-right: 10px;
+    }
+    /*.form-item-control {*/
+        /*padding-top: 10px;*/
+        /*border-top: 1px solid rgba(0,0,0,0.1);*/
+        /*}*/
+    .form-item-prompt {
+        margin-right: 20px;
+        margin-top: 5px;
+    }
+
+</style>
+<div class="row" ng:show="!isAuthenticated()">
+
+    <!--<div class="span6 field-column">-->
+        <!--<ul class="form-control">-->
+            <!--<li>-->
+                <!--<a class="btn btn-warning">Add</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+    <div class="span12 form-column" >
+        <ul class="form-control">
+            <li>
+                <a class="btn btn-warning" ng:click="addField()">Add</a>
+            </li>
+        </ul>
+        <div class="form-display">
+            <div class="form-item" ng:repeat="field in fields" ng:hide="field.markedForDelete">
+                <div ng:hide="inEditMode(field)" class="row-fluid">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="input-{{field.id}}">{{field.label}}</label>
+                            <div class="controls">
+                                <span cr:template="getTemplate(field.type)"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row-fluid" ng:show="inEditMode(field)">
+                    <form class="form-horizontal" ng:submit="submit(field)">
+                        <div class="control-group">
+                            <label class="control-label" for="input-{{field.id}}-label">
+                                Label
+                            </label>
+                            <div class="controls">
+                                <input id="input-{{field.id}}-label" type="text" ng:model="field.label"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="input-{{field.id}}-type">
+                                Type
+                            </label>
+                            <div class="controls">
+                                <select id="input-{{field.id}}-type" ng:model="field.type">
+                                    <option value="">Choose a Type</option>
+                                    <option value="text">Text</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <hr ng:show="inEditMode(field)"/>
+                <div class="row-fluid form-item-control" ng:hide="promptOpen(field)">
+                    <a class="form-item-control-item pull-right btn btn-success" ng:click="promptRemoveField(field)">
+                        <i class="icon-remove" />
+                    </a>
+                    <a class="form-item-control-item pull-right btn btn-success" ng:click="edit(field)" ng:show="!inEditMode(field)">
+                        <i class="icon-pencil" />
+                    </a>
+                    <button class="form-item-control-item pull-right btn btn-primary" ng:disabled="!isValid(field)" ng:click="submit(field)" ng:show="inEditMode(field)">
+                        <i class="icon-ok" ng:show="isValid(field)"/>
+                        <i class="icon-ban-circle" ng:show="!isValid(field)"/>
+                    </button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="row-fluid" ng:show="promptOpen(field)">
+                    <a class="form-item-control-item pull-right btn btn-primary" ng:click="cancelPrompt(field)" ng:show="!inEditMode(field)">
+                        No
+                    </a>
+                    <a class="form-item-control-item pull-right btn btn-warning" ng:click="removeField(field)">
+                        Yes
+                    </a>
+                    <span class="pull-right form-item-prompt">Delete? </span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,7 +5,6 @@ define(['Console'], function (Console) {
 	var controller = ['$scope', 'DataService', function ($scope,DataService) {
 		Console.group("DataController entered.");
 
-
 		$scope.queue = DataService.query();
 		$scope.queueHead = {
 			id: 'ID'

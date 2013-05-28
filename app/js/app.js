@@ -9,17 +9,13 @@ define([
 	, 'services/services'
 	, 'directives/directives'
 	, 'filters/filters'
-	, 'controllers/controllers'	
-], function (Console, $, _, angular, services, directives, filters, controllers) {
+	, 'controllers/controllers'
+    , 'routes/routes'
+], function (Console, $, _, angular, services, directives, filters, controllers, routes) {
 	"use strict";
 	
 	var initialize = function () {
 		Console.group("Starting application.");
-		Console.info("Services: ", services);
-		Console.info("Widgets: ", directives);
-		Console.info("Filters: ", filters);
-		Console.info("Controllers: ", controllers);
-		
 		Console.group("Setup Angular");
 
         var mainModule = angular.module('myApp',['ngResource']);
@@ -27,6 +23,7 @@ define([
 		directives.initialize(mainModule);
 		filters.initialize(mainModule);
         controllers.initialize(mainModule);
+        routes.initialize(mainModule);
 
 		angular.bootstrap(window.document,['myApp']);
 		Console.info("Angular compiled and executed.");
